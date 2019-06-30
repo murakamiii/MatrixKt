@@ -24,12 +24,5 @@ jobs:
           name: Run Tests
           command: ./gradlew test
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
-      - run:
-          name: artifact is doko
-          command: ls -a
-      - store_artifacts:
-          path: /build/reports/tests/test/
       - store_artifacts:
           path: build/reports/tests/test/
-      - store_artifacts:
-          path: code/build/reports/tests/test/index.html
