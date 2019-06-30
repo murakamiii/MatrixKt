@@ -23,7 +23,7 @@ internal class MatrixKtTest {
                 listOf(4, 5, 6)
             )
         )!!
-        assertEquals(33, m1.colNumber())
+        assertEquals(3, m1.colNumber())
     }
 
     @org.junit.jupiter.api.Test
