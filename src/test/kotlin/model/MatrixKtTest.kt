@@ -142,7 +142,7 @@ internal class MatrixKtTest {
                 listOf(-8, -10, -12)
             )
         )!!
-        assertEquals( res,m1 * -2)
-        assertEquals( res,-2 * m1)
+        assertEquals( res2,m1 * -2)
+        assertEquals( res2,-2 * m1)
     }
 }
