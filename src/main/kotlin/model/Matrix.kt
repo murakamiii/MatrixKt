@@ -6,6 +6,8 @@ data class Matrix(val comp: List<List<Int>>)
 
 fun Matrix.rowNumber() = this.comp.size
 fun Matrix.colNumber() = this.comp.first().size
+fun Matrix.row(index: Int) = this.comp[index]
+fun Matrix.col(index: Int) = this.comp.map { it[index] }
 
 fun makeMatrix(comp: List<List<Int>>) : Matrix? {
     return when {
@@ -54,3 +56,17 @@ operator fun Matrix.times(times: Int) : Matrix {
 }
 
 operator fun Int.times(other: Matrix) = other * this
+
+operator fun Matrix.times(other: Matrix) : Matrix {
+    if (this.colNumber() != other.rowNumber()) {
+        throw Exception("the product needs same lengths of lhs's col & rhs's row.")
+    }
+    val range = 0..(other.colNumber() - 1)
+
+    val ee = comp.map { lhsRow -> range.map { idx -> lhsRow.zip(other.col(idx)) { it1, it2 ->
+        it1 * it2
+    }.sum() }}
+    return makeMatrix(
+        ee
+    )!!
+}

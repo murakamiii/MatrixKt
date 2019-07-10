@@ -24,6 +24,7 @@ fun main() {
     mat?.let {
         println(it.rowNumber())
         println(it.colNumber())
+        println(it.col(1))
     }
 
     val mat2 = makeMatrix(
@@ -41,4 +42,23 @@ fun main() {
     (mat!! * 2).output()
     println("\n掛け算")
     (3 * mat!!).output()
+
+    val lhs = makeMatrix(
+        listOf(
+            listOf(2, 3),
+            listOf(1, 4),
+            listOf(-1, 0),
+            listOf(1, 5)
+        )
+    )!!
+
+    val rhs = makeMatrix(
+        listOf(
+            listOf(2, 0, -3),
+            listOf(-1, 5, 4)
+        )
+    )!!
+
+    println("\n行列積")
+    (lhs * rhs).output()
 }
