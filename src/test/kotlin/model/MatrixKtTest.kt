@@ -144,5 +144,25 @@ internal class MatrixKtTest {
         )!!
         assertEquals( res2,m1 * -2)
         assertEquals( res2,-2 * m1)
+
+        assertThrows(Exception::class.java ) { m1 * res2 }
+
+        val m2 = makeMatrix(
+            listOf(
+                listOf(0),
+                listOf(0),
+                listOf(0)
+            )
+        )!!
+
+        val res3 = makeMatrix(
+            listOf(
+                listOf(0),
+                listOf(0)
+            )
+        )
+
+        assertEquals(res3, m1 * m2)
+        assertEquals(res3, m2 * m1)
     }
 }
