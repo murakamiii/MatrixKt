@@ -154,15 +154,12 @@ internal class MatrixKtTest {
                 listOf(0)
             )
         )!!
-
         val res3 = makeMatrix(
             listOf(
                 listOf(0),
                 listOf(0)
             )
         )
-
         assertEquals(res3, m1 * m2)
-        assertEquals(res3, m2 * m1)
     }
 }
