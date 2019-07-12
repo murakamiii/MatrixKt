@@ -9,6 +9,12 @@ fun Matrix.colNumber() = this.comp.first().size
 fun Matrix.row(index: Int) = this.comp[index]
 fun Matrix.col(index: Int) = this.comp.map { it[index] }
 
+fun Matrix.isDiagonal() = comp.withIndex().all { indexedRow ->
+    indexedRow.value.withIndex().all { indexedCol ->
+        indexedRow.index == indexedCol.index || indexedCol.value == 0
+    }
+}
+
 fun makeMatrix(comp: List<List<Int>>) : Matrix? {
     return when {
         comp.isEmpty() -> null
