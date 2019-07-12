@@ -162,4 +162,25 @@ internal class MatrixKtTest {
         )
         assertEquals(res3, m1 * m2)
     }
+
+    @org.junit.jupiter.api.Test
+    fun isDiagonal() {
+        val nonDiagonal = makeMatrix(
+            listOf(
+                listOf(2, 0, -3),
+                listOf(0, 5, 0),
+                listOf(0, 0, 4)
+            )
+        )!!
+        assertFalse(nonDiagonal.isDiagonal())
+
+        val diagonal = makeMatrix(
+            listOf(
+                listOf(2, 0, 0),
+                listOf(0, 5, 0),
+                listOf(0, 0, 4)
+            )
+        )!!
+        assertTrue(diagonal.isDiagonal())
+    }
 }

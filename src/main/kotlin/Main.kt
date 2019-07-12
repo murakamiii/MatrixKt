@@ -61,4 +61,23 @@ fun main() {
 
     println("\n行列積")
     (lhs * rhs).output()
+    println()
+
+    val nonDiagonal = makeMatrix(
+        listOf(
+            listOf(2, 0, -3),
+            listOf(0, 5, 0),
+            listOf(0, 0, 4)
+        )
+    )!!
+    println("nonDiagonal.isDiagonal() : " + nonDiagonal.isDiagonal())
+
+    val diagonal = makeMatrix(
+        listOf(
+            listOf(2, 0, 0),
+            listOf(0, 5, 0),
+            listOf(0, 0, 4)
+        )
+    )!!
+    println("diagonal.isDiagonal() : " + diagonal.isDiagonal())
 }
