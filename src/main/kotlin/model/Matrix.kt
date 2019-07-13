@@ -33,8 +33,7 @@ fun Matrix.isSkewSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()
 }
 
 fun Matrix.isUpperTriangular() = 0.until(rowNumber()).all { rowIdx ->
-    rowIdx.downTo(0).all { colIdx ->
-        println(comp[rowIdx][colIdx])
+    (rowIdx - 1).downTo(0).all { colIdx ->
         comp[rowIdx][colIdx] == 0
     }
 }
