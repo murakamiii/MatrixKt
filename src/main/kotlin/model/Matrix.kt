@@ -67,12 +67,11 @@ operator fun Matrix.times(other: Matrix) : Matrix {
     if (this.colNumber() != other.rowNumber()) {
         throw Exception("the product needs same lengths of lhs's col & rhs's row.")
     }
-    val range = 0..(other.colNumber() - 1)
 
-    val ee = comp.map { lhsRow -> range.map { idx -> lhsRow.zip(other.col(idx)) { it1, it2 ->
-        it1 * it2
-    }.sum() }}
     return makeMatrix(
-        ee
+        comp.map { lhsRow -> 0.until(other.colNumber()).map { idx -> lhsRow.zip(other.col(idx)) { it1, it2 ->
+                it1 * it2
+            }.sum()
+        }}
     )!!
 }
