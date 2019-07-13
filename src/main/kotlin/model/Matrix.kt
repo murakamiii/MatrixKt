@@ -26,6 +26,12 @@ fun Matrix.isSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()).al
     }
 }
 
+fun Matrix.isSkewSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()).all { rowIdx ->
+    (rowIdx + 1).until(colNumber()).all { colIdx ->
+        comp[rowIdx][colIdx] == comp[colIdx][rowIdx] * -1
+    }
+}
+
 // TODO: あとでcompanion objectにする
 fun makeMatrix(comp: List<List<Int>>) : Matrix? {
     return when {

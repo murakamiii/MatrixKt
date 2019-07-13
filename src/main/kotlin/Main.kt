@@ -102,4 +102,22 @@ fun main() {
         )
     )!!.isSymmetric()
     println("対称行列？: " + nonSymmetric)
+
+    val skewSymmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(5, 0, 3),
+            listOf(-4, -3, 2)
+        )
+    )!!.isSkewSymmetric()
+    println("交代行列？: " + skewSymmetric)
+
+    val nonSkewSymmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(5, 0, 3),
+            listOf(-4, 3, 2)
+        )
+    )!!.isSkewSymmetric()
+    println("交代行列？: " + nonSkewSymmetric)
 }
