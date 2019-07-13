@@ -32,6 +32,13 @@ fun Matrix.isSkewSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()
     }
 }
 
+fun Matrix.isUpperTriangular() = 0.until(rowNumber()).all { rowIdx ->
+    rowIdx.downTo(0).all { colIdx ->
+        println(comp[rowIdx][colIdx])
+        comp[rowIdx][colIdx] == 0
+    }
+}
+
 // TODO: あとでcompanion objectにする
 fun makeMatrix(comp: List<List<Int>>) : Matrix? {
     return when {

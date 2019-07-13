@@ -120,4 +120,22 @@ fun main() {
         )
     )!!.isSkewSymmetric()
     println("交代行列？: " + nonSkewSymmetric)
+
+    val upperTriangular = makeMatrix(
+        listOf(
+            listOf(1, 2, 5),
+            listOf(0, -1, 0),
+            listOf(0, 0, -3)
+        )
+    )!!.isUpperTriangular()
+    println("上三角行列？: " + upperTriangular)
+
+    val nonUpperTrianglar = makeMatrix(
+        listOf(
+            listOf(1, 2, 5),
+            listOf(0, -1, 0),
+            listOf(0, 1, -3)
+        )
+    )!!.isUpperTriangular()
+    println("上三角行列？: " + nonUpperTrianglar)
 }

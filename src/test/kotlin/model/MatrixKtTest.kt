@@ -1,6 +1,7 @@
 package model
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import java.lang.Exception
 
 internal class MatrixKtTest {
@@ -253,5 +254,26 @@ internal class MatrixKtTest {
             )
         )!!
         assertFalse(mat2.isSkewSymmetric())
+    }
+
+    @Test
+    fun isUpperTriangular() {
+        val mat = makeMatrix(
+            listOf(
+                listOf(1, -5, 4),
+                listOf(0, 4, -3),
+                listOf(0, 0, 7)
+            )
+        )!!
+        assertTrue(mat.isUpperTriangular())
+
+        val mat2 = makeMatrix(
+            listOf(
+                listOf(1, -5, 4),
+                listOf(0, 4, -3),
+                listOf(0, 1, 7)
+            )
+        )!!
+        assertFalse(mat.isUpperTriangular())
     }
 }
