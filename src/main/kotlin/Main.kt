@@ -80,4 +80,9 @@ fun main() {
         )
     )!!
     println("diagonal.isDiagonal() : " + diagonal.isDiagonal())
+    println()
+
+    println("転置行列")
+    rhs.transposed().output()
+
 }

@@ -15,6 +15,11 @@ fun Matrix.isDiagonal() = comp.withIndex().all { indexedRow ->
     }
 }
 
+fun Matrix.transposed() : Matrix {
+    val newComp = 0.until(colNumber()).map { idx -> col(idx) }
+    return makeMatrix(newComp)!!
+}
+
 fun makeMatrix(comp: List<List<Int>>) : Matrix? {
     return when {
         comp.isEmpty() -> null

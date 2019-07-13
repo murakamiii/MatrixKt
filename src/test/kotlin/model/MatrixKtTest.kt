@@ -183,4 +183,24 @@ internal class MatrixKtTest {
         )!!
         assertTrue(diagonal.isDiagonal())
     }
+
+    @org.junit.jupiter.api.Test
+    fun transposed() {
+        val mat = makeMatrix(
+            listOf(
+                listOf(-2, 3, 1),
+                listOf(6, 0, 9)
+            )
+        )!!
+
+        val expect = makeMatrix(
+            listOf(
+                listOf(-2, 6),
+                listOf(3, 0),
+                listOf(1, 9)
+            )
+        )!!
+
+        assertEquals(mat.transposed(), expect)
+    }
 }
