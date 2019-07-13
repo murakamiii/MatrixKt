@@ -274,6 +274,6 @@ internal class MatrixKtTest {
                 listOf(0, 1, 7)
             )
         )!!
-        assertFalse(mat.isUpperTriangular())
+        assertFalse(mat2.isUpperTriangular())
     }
 }
