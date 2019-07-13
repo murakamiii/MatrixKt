@@ -85,4 +85,21 @@ fun main() {
     println("転置行列")
     rhs.transposed().output()
 
+    val symmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(-5, 0, 3),
+            listOf(4, 3, 2)
+        )
+    )!!.isSymmetric()
+    println("対称行列？: " + symmetric)
+
+    val nonSymmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(-5, 0, 3),
+            listOf(4, -3, 2)
+        )
+    )!!.isSymmetric()
+    println("対称行列？: " + nonSymmetric)
 }

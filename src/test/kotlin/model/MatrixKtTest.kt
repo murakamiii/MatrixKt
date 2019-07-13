@@ -203,4 +203,33 @@ internal class MatrixKtTest {
 
         assertEquals(mat.transposed(), expect)
     }
+
+    @org.junit.jupiter.api.Test
+    fun isSymmetric() {
+        val mat = makeMatrix(
+            listOf(
+                listOf(2, -3, 5),
+                listOf(-3, 1, -4)
+            )
+        )!!
+        assertFalse(mat.isSymmetric())
+
+        val mat2 = makeMatrix(
+            listOf(
+                listOf(2, -3, 5),
+                listOf(-3, 1, -4),
+                listOf(5, 4, 3)
+            )
+        )!!
+        assertFalse(mat2.isSymmetric())
+
+        val mat3 = makeMatrix(
+            listOf(
+                listOf(2, -3, 5),
+                listOf(-3, 1, -4),
+                listOf(5, -4, 3)
+            )
+        )!!
+        assertTrue(mat3.isSymmetric())
+    }
 }

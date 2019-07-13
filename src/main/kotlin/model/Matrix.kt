@@ -20,6 +20,13 @@ fun Matrix.transposed() : Matrix {
     return makeMatrix(newComp)!!
 }
 
+fun Matrix.isSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()).all { rowIdx ->
+    (rowIdx + 1).until(colNumber()).all { colIdx ->
+        comp[rowIdx][colIdx] == comp[colIdx][rowIdx]
+    }
+}
+
+// TODO: あとでcompanion objectにする
 fun makeMatrix(comp: List<List<Int>>) : Matrix? {
     return when {
         comp.isEmpty() -> null
