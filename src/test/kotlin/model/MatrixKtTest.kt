@@ -1,6 +1,7 @@
 package model
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import java.lang.Exception
 
 internal class MatrixKtTest {
@@ -182,5 +183,97 @@ internal class MatrixKtTest {
             )
         )!!
         assertTrue(diagonal.isDiagonal())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun transposed() {
+        val mat = makeMatrix(
+            listOf(
+                listOf(-2, 3, 1),
+                listOf(6, 0, 9)
+            )
+        )!!
+
+        val expect = makeMatrix(
+            listOf(
+                listOf(-2, 6),
+                listOf(3, 0),
+                listOf(1, 9)
+            )
+        )!!
+
+        assertEquals(mat.transposed(), expect)
+    }
+
+    @org.junit.jupiter.api.Test
+    fun isSymmetric() {
+        val mat = makeMatrix(
+            listOf(
+                listOf(2, -3, 5),
+                listOf(-3, 1, -4)
+            )
+        )!!
+        assertFalse(mat.isSymmetric())
+
+        val mat2 = makeMatrix(
+            listOf(
+                listOf(2, -3, 5),
+                listOf(-3, 1, -4),
+                listOf(5, 4, 3)
+            )
+        )!!
+        assertFalse(mat2.isSymmetric())
+
+        val mat3 = makeMatrix(
+            listOf(
+                listOf(2, -3, 5),
+                listOf(-3, 1, -4),
+                listOf(5, -4, 3)
+            )
+        )!!
+        assertTrue(mat3.isSymmetric())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun isSkewSymmetric() {
+        val mat = makeMatrix(
+            listOf(
+                listOf(0, -5, 4, 1),
+                listOf(5, 0, -3, 2),
+                listOf(-4, 3, 0, 6),
+                listOf(-1, -2, -6, 0)
+            )
+        )!!
+        assertTrue(mat.isSkewSymmetric())
+        val mat2 = makeMatrix(
+            listOf(
+                listOf(0, -5, 4, 1),
+                listOf(5, 0, -3, 2),
+                listOf(-4, 3, 0, 6),
+                listOf(1, -2, -6, 0)
+            )
+        )!!
+        assertFalse(mat2.isSkewSymmetric())
+    }
+
+    @Test
+    fun isUpperTriangular() {
+        val mat = makeMatrix(
+            listOf(
+                listOf(1, -5, 4),
+                listOf(0, 4, -3),
+                listOf(0, 0, 7)
+            )
+        )!!
+        assertTrue(mat.isUpperTriangular())
+
+        val mat2 = makeMatrix(
+            listOf(
+                listOf(1, -5, 4),
+                listOf(0, 4, -3),
+                listOf(0, 1, 7)
+            )
+        )!!
+        assertFalse(mat2.isUpperTriangular())
     }
 }

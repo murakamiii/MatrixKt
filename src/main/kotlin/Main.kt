@@ -80,4 +80,62 @@ fun main() {
         )
     )!!
     println("diagonal.isDiagonal() : " + diagonal.isDiagonal())
+    println()
+
+    println("転置行列")
+    rhs.transposed().output()
+
+    val symmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(-5, 0, 3),
+            listOf(4, 3, 2)
+        )
+    )!!.isSymmetric()
+    println("対称行列？: " + symmetric)
+
+    val nonSymmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(-5, 0, 3),
+            listOf(4, -3, 2)
+        )
+    )!!.isSymmetric()
+    println("対称行列？: " + nonSymmetric)
+
+    val skewSymmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(5, 0, 3),
+            listOf(-4, -3, 2)
+        )
+    )!!.isSkewSymmetric()
+    println("交代行列？: " + skewSymmetric)
+
+    val nonSkewSymmetric = makeMatrix(
+        listOf(
+            listOf(1, -5, 4),
+            listOf(5, 0, 3),
+            listOf(-4, 3, 2)
+        )
+    )!!.isSkewSymmetric()
+    println("交代行列？: " + nonSkewSymmetric)
+
+    val upperTriangular = makeMatrix(
+        listOf(
+            listOf(1, 2, 5),
+            listOf(0, -1, 0),
+            listOf(0, 0, -3)
+        )
+    )!!.isUpperTriangular()
+    println("上三角行列？: " + upperTriangular)
+
+    val nonUpperTrianglar = makeMatrix(
+        listOf(
+            listOf(1, 2, 5),
+            listOf(0, -1, 0),
+            listOf(0, 1, -3)
+        )
+    )!!.isUpperTriangular()
+    println("上三角行列？: " + nonUpperTrianglar)
 }

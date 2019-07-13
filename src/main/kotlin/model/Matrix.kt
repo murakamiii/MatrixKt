@@ -15,6 +15,30 @@ fun Matrix.isDiagonal() = comp.withIndex().all { indexedRow ->
     }
 }
 
+fun Matrix.transposed() : Matrix {
+    val newComp = 0.until(colNumber()).map { idx -> col(idx) }
+    return makeMatrix(newComp)!!
+}
+
+fun Matrix.isSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()).all { rowIdx ->
+    (rowIdx + 1).until(colNumber()).all { colIdx ->
+        comp[rowIdx][colIdx] == comp[colIdx][rowIdx]
+    }
+}
+
+fun Matrix.isSkewSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()).all { rowIdx ->
+    (rowIdx + 1).until(colNumber()).all { colIdx ->
+        comp[rowIdx][colIdx] == comp[colIdx][rowIdx] * -1
+    }
+}
+
+fun Matrix.isUpperTriangular() = 0.until(rowNumber()).all { rowIdx ->
+    (rowIdx - 1).downTo(0).all { colIdx ->
+        comp[rowIdx][colIdx] == 0
+    }
+}
+
+// TODO: あとでcompanion objectにする
 fun makeMatrix(comp: List<List<Int>>) : Matrix? {
     return when {
         comp.isEmpty() -> null
@@ -67,12 +91,11 @@ operator fun Matrix.times(other: Matrix) : Matrix {
     if (this.colNumber() != other.rowNumber()) {
         throw Exception("the product needs same lengths of lhs's col & rhs's row.")
     }
-    val range = 0..(other.colNumber() - 1)
 
-    val ee = comp.map { lhsRow -> range.map { idx -> lhsRow.zip(other.col(idx)) { it1, it2 ->
-        it1 * it2
-    }.sum() }}
     return makeMatrix(
-        ee
+        comp.map { lhsRow -> 0.until(other.colNumber()).map { idx -> lhsRow.zip(other.col(idx)) { it1, it2 ->
+                it1 * it2
+            }.sum()
+        }}
     )!!
 }
