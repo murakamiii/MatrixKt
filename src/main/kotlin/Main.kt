@@ -138,4 +138,9 @@ fun main() {
         )
     )!!.isUpperTriangular()
     println("上三角行列？: " + nonUpperTrianglar)
+
+    val me = MatrixElement(20, 4)
+    val me2 = MatrixElement(1, 3)
+    val me3 = MatrixElement(1, 2)
+
 }
