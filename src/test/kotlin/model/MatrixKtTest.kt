@@ -7,7 +7,7 @@ import java.lang.Exception
 
 internal class MatrixKtTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun rowNumber() {
         val m1 = Matrix.make(
             listOf(
@@ -18,7 +18,7 @@ internal class MatrixKtTest {
         assertTrue(m1.rowNumber() == 2)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun colNumber() {
         val m1 = Matrix.make(
             listOf(
@@ -29,7 +29,7 @@ internal class MatrixKtTest {
         assertEquals(3, m1.colNumber())
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun getComp() {
         assertThrows<Exception> {
             val m1 = Matrix.make(
@@ -60,7 +60,7 @@ internal class MatrixKtTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun plus() {
         val m1 = Matrix.make(
             listOf(
@@ -92,7 +92,7 @@ internal class MatrixKtTest {
         assertEquals( res,m1 + m1)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun minus() {
         val m1 = Matrix.make(
             listOf(
@@ -125,7 +125,7 @@ internal class MatrixKtTest {
 
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun times() {
         val m1 = Matrix.make(
             listOf(
@@ -170,7 +170,7 @@ internal class MatrixKtTest {
         assertEquals(res3, m1 * m2)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun isDiagonal() {
         val nonDiagonal = Matrix.make(
             listOf(
@@ -191,7 +191,7 @@ internal class MatrixKtTest {
         assertTrue(diagonal.isDiagonal())
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun transposed() {
         val mat = Matrix.make(
             listOf(
@@ -211,7 +211,7 @@ internal class MatrixKtTest {
         assertEquals(mat.transposed(), expect)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun isSymmetric() {
         val mat = Matrix.make(
             listOf(
@@ -240,7 +240,7 @@ internal class MatrixKtTest {
         assertTrue(mat3.isSymmetric())
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun isSkewSymmetric() {
         val mat = Matrix.make(
             listOf(
