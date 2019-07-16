@@ -49,16 +49,6 @@ fun Matrix.isUpperTriangular() = 0.until(rowNumber()).all { rowIdx ->
     }
 }
 
-// TODO: あとでcompanion objectにする
-fun makeMatrix(comp: List<List<Int>>) : Matrix? {
-    return when {
-        comp.isEmpty() -> null
-        comp.first().isEmpty() -> null
-        !comp.all { it.size == comp.first().size } -> null
-        else -> Matrix.make(comp)
-    }
-}
-
 fun Matrix.output() {
     comp.forEach { row ->
         row.forEach{
