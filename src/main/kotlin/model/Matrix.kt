@@ -8,7 +8,7 @@ data class Matrix(val comp: List<List<MatrixElement>>) {
             return when {
                 comp.isEmpty() -> throw Exception("empty error")
                 comp.first().isEmpty() -> throw Exception("empty error")
-                !comp.all { it.size == comp.first().size } -> throw Exception("empty error")
+                !comp.all { it.size == comp.first().size } -> throw Exception("Matrix.make format error")
                 else -> Matrix(comp.map { it.map { MatrixElement(it)}})
             }
         }
@@ -20,6 +20,26 @@ fun Matrix.colNumber() = this.comp.first().size
 fun Matrix.row(index: Int) = this.comp[index]
 fun Matrix.col(index: Int) = this.comp.map { it[index] }
 
+fun Matrix.makeMatrixSwappedRow(idx1: Int, idx2: Int) = Matrix(
+    comp.mapIndexed { idx, list ->
+        when(idx) {
+            idx1 -> this.row(idx2)
+            idx2 -> this.row(idx1)
+            else -> list
+        }
+    }
+)
+fun Matrix.makeMatrixMultipleRow(idx: Int, times: Int) = Matrix(
+    comp.mapIndexed { index, list ->
+        if (index == idx) { list.map { times * it }} else list
+    }
+)
+
+fun Matrix.makeMatrixAddMultipleRow(toIdx: Int, times: Int, fromIdx: Int) = Matrix(
+    comp.mapIndexed { index, list ->
+        if (index == toIdx) { list.zip(row(fromIdx)) { to, from -> to + (times * from )}} else list
+    }
+)
 fun Matrix.isDiagonal() = comp.withIndex().all { indexedRow ->
     indexedRow.value.withIndex().all { indexedCol ->
         indexedRow.index == indexedCol.index || indexedCol.value.equals(0)
@@ -57,6 +77,10 @@ fun Matrix.output() {
         println()
     }
 }
+
+/*
+    演算子
+ */
 
 operator fun Matrix.plus(other: Matrix) : Matrix {
     if (this.rowNumber() != other.rowNumber() || this.colNumber() != other.colNumber()) {

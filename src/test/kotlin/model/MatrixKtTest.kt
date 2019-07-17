@@ -282,4 +282,123 @@ internal class MatrixKtTest {
         )
         assertFalse(mat2.isUpperTriangular())
     }
+
+    @Test
+    fun makeMatrixSwappedRow() {
+        val mat1 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        ).makeMatrixSwappedRow(0, 3)
+
+        val exp = Matrix.make(
+            listOf(
+                listOf(22, -52, 0),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(1, 20, 3)
+            )
+        )
+
+        assertEquals(exp, mat1)
+    }
+
+    @Test
+    fun makeMatrixMultipleRow() {
+        val mat1 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        ).makeMatrixMultipleRow(1, 3)
+        val exp1 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(6, 63, 12),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        )
+        assertEquals(exp1, mat1)
+
+        val mat2 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        ).makeMatrixMultipleRow(3, 0)
+        val exp2 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(0, 0, 0)
+            )
+        )
+        assertEquals(exp2, mat2)
+    }
+
+    @Test
+    fun makeMatrixAddMultipleRow() {
+        val mat1 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        ).makeMatrixAddMultipleRow(2, 0, 0)
+        val exp1 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        )
+        assertEquals(exp1, mat1)
+
+        val mat2 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        ).makeMatrixAddMultipleRow(2, 2, 0)
+        val exp2 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(5, 62, 11),
+                listOf(22, -52, 0)
+            )
+        )
+        assertEquals(exp2, mat2)
+
+        val mat3 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(2, 21, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        ).makeMatrixAddMultipleRow(1, -2, 3)
+        val exp3 = Matrix.make(
+            listOf(
+                listOf(1, 20, 3),
+                listOf(-42, 125, 4),
+                listOf(3, 22, 5),
+                listOf(22, -52, 0)
+            )
+        )
+        assertEquals(exp3, mat3)
+    }
 }
