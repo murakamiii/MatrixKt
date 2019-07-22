@@ -177,4 +177,19 @@ fun main() {
     )
     .inverse()
     .output()
+
+    println("行列式:")
+    println(Matrix.make(
+        listOf(
+            listOf(-2, 1),
+            listOf(3, 4)
+        )
+    ).det())
+    println(Matrix.make(
+        listOf(
+            listOf(6, 2, -5),
+            listOf(-2, 1, 0),
+            listOf(0, 4, -3)
+        )
+    ).det())
 }

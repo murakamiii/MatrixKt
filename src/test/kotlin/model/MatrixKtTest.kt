@@ -482,4 +482,24 @@ internal class MatrixKtTest {
         )
         assertEquals(inv, mat.inverse())
     }
+
+    @Test
+    fun det() {
+        val det1 = Matrix.make(
+            listOf(
+                listOf(2, 3),
+                listOf(1, 4)
+            )
+        ).det()
+        assertEquals(5.0, det1.value())
+
+        val det2 = Matrix.make(
+            listOf(
+                listOf(5, 2, -1),
+                listOf(4, 1, 0),
+                listOf(3, -1, 1)
+            )
+        ).det()
+        assertEquals(4.0, det2.value())
+    }
 }
