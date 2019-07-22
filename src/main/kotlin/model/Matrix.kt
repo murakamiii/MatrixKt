@@ -1,6 +1,7 @@
 package model
 
 import java.lang.Exception
+import kotlin.math.pow
 
 data class Matrix(val comp: List<List<MatrixElement>>) {
     companion object {
@@ -136,6 +137,27 @@ fun Matrix.output() {
         println()
     }
 }
+
+fun Matrix.det() : MatrixElement {
+    if (rowNumber() != colNumber()) {
+        throw Exception("the determinant needs same row & col length.")
+    }
+    return when(rowNumber()) {
+        0, 1 -> throw Exception("the determinant needs the row & col length more than 1.")
+        2 -> comp[0][0] * comp[1][1] - comp[0][1] * comp[1][0]
+        else -> comp
+            .mapIndexed { index, list ->
+                (-1.0).pow(index).toInt() * list[0] * minor(index, 0).det()
+            }
+            .reduce { acc, ele -> acc + ele }
+    }
+}
+
+fun Matrix.minor(row: Int, col: Int) = Matrix(
+    comp.filterIndexed { index, list -> index != row }
+        .map { it.filterIndexed { index, ele -> index != col } }
+)
+
 
 /*
     演算子
