@@ -139,8 +139,42 @@ fun main() {
     ).isUpperTriangular()
     println("上三角行列？: " + nonUpperTrianglar)
 
-    val me = MatrixElement(20, 4)
-    val me2 = MatrixElement(1, 3)
-    val me3 = MatrixElement(1, 2)
+    Matrix.make(
+        listOf(
+            listOf(1, 20, 3),
+            listOf(2, 21, 4),
+            listOf(3, 22, 5),
+            listOf(22, -52, 0)
+        )
+    ).makeMatrixSwappedRow(0, 3).output()
+    println()
+    Matrix.make(
+        listOf(
+            listOf(1, 20, 3),
+            listOf(2, 21, 4),
+            listOf(3, 22, 5),
+            listOf(22, -52, 0)
+        )
+    ).makeMatrixMultipleRow(3, -10).output()
 
+    println("逆行列")
+    Matrix.make(
+        listOf(
+            listOf(0, 2, 1),
+            listOf(1, 0, 0),
+            listOf(3, 0, 1)
+        )
+    )
+    .inverse()
+    .output()
+    println("逆行列")
+    Matrix.make(
+        listOf(
+            listOf(2, 0, -1),
+            listOf(-1, 1, 2),
+            listOf(3, 1, -3)
+        )
+    )
+    .inverse()
+    .output()
 }
