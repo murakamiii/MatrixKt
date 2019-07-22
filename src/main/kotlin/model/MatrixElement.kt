@@ -4,7 +4,10 @@ data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) {
     constructor(value: Int) : this(value, 1.toNonZeroInt()){}
     constructor(numerator: Int, denominator: Int) : this(numerator, denominator.toNonZeroInt()){}
 
-    fun value() = numerator.toDouble()/denominator.toDouble()
+    fun value(): Double {
+        if (numerator == 0) return 0.0
+        return numerator.toDouble()/denominator.toDouble()
+    }
 
     private fun fmt(d: Double): String {
         return d.toString().replace(".0", "")
@@ -19,6 +22,8 @@ data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) {
     override fun toString(): String {
         return fmt(value())
     }
+
+    fun reciprocal() = if (numerator == 0) MatrixElement(0) else MatrixElement(denominator.toInt(), numerator)
 }
 
 operator fun MatrixElement.plus(other: MatrixElement): MatrixElement = MatrixElement(

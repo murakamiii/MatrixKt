@@ -157,4 +157,24 @@ fun main() {
         )
     ).makeMatrixMultipleRow(3, -10).output()
 
+    println("逆行列")
+    Matrix.make(
+        listOf(
+            listOf(0, 2, 1),
+            listOf(1, 0, 0),
+            listOf(3, 0, 1)
+        )
+    )
+    .inverse()
+    .output()
+    println("逆行列")
+    Matrix.make(
+        listOf(
+            listOf(2, 0, -1),
+            listOf(-1, 1, 2),
+            listOf(3, 1, -3)
+        )
+    )
+    .inverse()
+    .output()
 }

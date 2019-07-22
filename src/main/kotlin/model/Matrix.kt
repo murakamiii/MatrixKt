@@ -35,11 +35,70 @@ fun Matrix.makeMatrixMultipleRow(idx: Int, times: Int) = Matrix(
     }
 )
 
+fun Matrix.makeMatrixMultipleRow(idx: Int, times: MatrixElement) = Matrix(
+    comp.mapIndexed { index, list ->
+        if (index == idx) { list.map { times * it }} else list
+    }
+)
+
 fun Matrix.makeMatrixAddMultipleRow(toIdx: Int, times: Int, fromIdx: Int) = Matrix(
     comp.mapIndexed { index, list ->
         if (index == toIdx) { list.zip(row(fromIdx)) { to, from -> to + (times * from )}} else list
     }
 )
+
+fun Matrix.makeMatrixAddMultipleRow(toIdx: Int, times: MatrixElement, fromIdx: Int) = Matrix(
+    comp.mapIndexed { index, list ->
+        if (index == toIdx) { list.zip(row(fromIdx)) { to, from -> to + (times * from )}} else list
+    }
+)
+
+fun Matrix.rowReducted(colNum: Int = colNumber()) : Matrix {
+    var reducted = Matrix(comp)
+
+    0.until(colNum).forEach { colIdx ->
+        // 0でないならスワップする
+        if (reducted.comp[colIdx][colIdx].value() == 0.0) {
+            val swapTarget = reducted.comp.drop(colIdx + 1).indexOfFirst { it[colIdx].value() != 0.0 }
+            if (swapTarget == -1) { return@forEach }
+            reducted = reducted.makeMatrixSwappedRow(colIdx, swapTarget + colIdx + 1)
+        }
+
+        // 逆数をかけて１にする
+        reducted = reducted.makeMatrixMultipleRow(colIdx, reducted.comp[colIdx][colIdx].reciprocal())
+
+        // 各行について0になるように調整
+        0.until(rowNumber()).forEach {
+            if (it != colIdx) {
+                reducted = reducted.makeMatrixAddMultipleRow(it, -1 *  reducted.comp[it][colIdx], colIdx)
+            }
+        }
+    }
+
+    return reducted
+}
+
+fun Matrix.identity(): Matrix {
+    if (rowNumber() != colNumber()) {
+        throw Exception("the identity needs same row & col length.")
+    }
+    val c = 0.until(rowNumber()).map { rowIdx -> 0.until(colNumber()).map { if (rowIdx == it) 1 else 0 }}
+
+    return Matrix.make(c)
+}
+
+fun Matrix.inverse() : Matrix {
+    val reducted = Matrix(
+        comp.zip(identity().comp) { left, right ->
+            left.plus(right)
+        }
+    ).rowReducted(rowNumber())
+
+    return Matrix(
+        reducted.comp.map { it.drop(rowNumber()) }
+    )
+}
+
 fun Matrix.isDiagonal() = comp.withIndex().all { indexedRow ->
     indexedRow.value.withIndex().all { indexedCol ->
         indexedRow.index == indexedCol.index || indexedCol.value.equals(0)

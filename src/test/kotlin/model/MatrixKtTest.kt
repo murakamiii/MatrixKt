@@ -401,4 +401,85 @@ internal class MatrixKtTest {
         )
         assertEquals(exp3, mat3)
     }
+
+    @Test
+    fun rowReducted() {
+        val mat = Matrix.make(
+            listOf(
+                listOf(1, 3, 1),
+                listOf(1, 1, -1),
+                listOf(3, 11, 5)
+            )
+        )
+
+        val mat1 = Matrix.make(
+            listOf(
+                listOf(1, 3, 1),
+                listOf(0, -2, -2),
+                listOf(0, 2, 2)
+            )
+        )
+        val mat2 = Matrix.make(
+            listOf(
+                listOf(1, 0, -2),
+                listOf(0, 1, 1),
+                listOf(0, 0, 0)
+            )
+        )
+
+        assertEquals(mat, mat.rowReducted(0))
+        assertEquals(mat1, mat.rowReducted(1))
+        assertEquals(mat2, mat.rowReducted(2))
+        assertEquals(mat2, mat.rowReducted())
+    }
+
+    @Test
+    fun identity() {
+        val mat = Matrix.make(
+            listOf(
+                listOf(1, 3, 1),
+                listOf(1, 1, -1),
+                listOf(3, 11, 5)
+            )
+        )
+        val mat1 = Matrix.make(
+            listOf(
+                listOf(1, 0, 0),
+                listOf(0, 1, 0),
+                listOf(0, 0, 1)
+            )
+        )
+        assertEquals(mat1, mat.identity())
+
+        val mat2 = Matrix.make(
+            listOf(
+                listOf(1, 3),
+                listOf(1, 1)
+            )
+        )
+        val mat3 = Matrix.make(
+            listOf(
+                listOf(1, 0),
+                listOf(0, 1)
+            )
+        )
+        assertEquals(mat3, mat2.identity())
+    }
+
+    @Test
+    fun inverse() {
+        val mat = Matrix.make(
+            listOf(
+                listOf(1, 0),
+                listOf(0, 2)
+            )
+        )
+        val inv = Matrix(
+            listOf(
+                listOf(MatrixElement(1), MatrixElement(0)),
+                listOf(MatrixElement(0), MatrixElement(1, 2))
+            )
+        )
+        assertEquals(inv, mat.inverse())
+    }
 }
