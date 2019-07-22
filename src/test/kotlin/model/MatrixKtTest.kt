@@ -501,5 +501,26 @@ internal class MatrixKtTest {
             )
         ).det()
         assertEquals(4.0, det2.value())
+
+        val det3 = Matrix.make(
+            listOf(
+                listOf(2, 4, 1, -3),
+                listOf(0, 1, -2, 1),
+                listOf(1, 0, 2, -3),
+                listOf(1, 0, 3, -2)
+            )
+        ).det()
+        assertEquals(-6.0, det3.value())
+
+        val det4 = Matrix.make(
+            listOf(
+                listOf(-2, 1, 4, 5, 3),
+                listOf(4, 0, 3, -1, 2),
+                listOf(1, 3, 0, -3, 0),
+                listOf(4, 2, 3, 1, -1),
+                listOf(0, 3, 2, 1, -1)
+            )
+        ).det()
+        assertEquals(-336.0, det4.value())
     }
 }

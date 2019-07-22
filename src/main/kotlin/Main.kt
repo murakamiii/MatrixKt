@@ -192,4 +192,21 @@ fun main() {
             listOf(0, 4, -3)
         )
     ).det())
+    println(Matrix.make(
+        listOf(
+            listOf(2, -3, 1, 1),
+            listOf(-5, 1, 3, -1),
+            listOf(1, 0, 0, -3),
+            listOf(4, 2, 3, 1)
+        )
+    ).det())
+    println(Matrix.make(
+        listOf(
+            listOf(3, 5, 1, 2, 1),
+            listOf(2, 6, 0, 9, 3),
+            listOf(3, 6, 7, 1, 2),
+            listOf(2, 7, 0, 0, 0),
+            listOf(1, 5, 0, 0, 0)
+        )
+    ).det())
 }
