@@ -1,13 +1,17 @@
 package model
 
-data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) {
+import java.lang.Error
+
+data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) : MElement {
     constructor(value: Int) : this(value, 1.toNonZeroInt()){}
     constructor(numerator: Int, denominator: Int) : this(numerator, denominator.toNonZeroInt()){}
 
-    fun value(): Double {
+    override fun value(): Double {
         if (numerator == 0) return 0.0
         return numerator.toDouble()/denominator.toDouble()
     }
+    override fun reciprocal() = if (numerator == 0) MatrixElement(0) else MatrixElement(denominator.toInt(), numerator)
+
 
     private fun fmt(d: Double): String {
         return d.toString().replace(".0", "")
@@ -23,25 +27,25 @@ data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) {
         return fmt(value())
     }
 
-    fun reciprocal() = if (numerator == 0) MatrixElement(0) else MatrixElement(denominator.toInt(), numerator)
+    override operator fun times(other: Int) = MatrixElement(this.numerator * other, this.denominator)
+
+    override fun times(other: MElement) = if (other is MatrixElement) MatrixElement(
+        numerator * other.numerator,
+        denominator * other.denominator
+    ) else throw Error("同じ型で計算して")
+
+    override fun plus(other: MElement) = if (other is MatrixElement) MatrixElement(
+        numerator * other.denominator.toInt() + other.numerator * denominator.toInt(),
+        denominator.toInt() * other.denominator.toInt()
+    ) else throw Error("同じ型で計算して")
+
+    override fun minus(other: MElement) = if (other is MatrixElement) MatrixElement(
+        numerator * other.denominator.toInt() - other.numerator * denominator.toInt(),
+        denominator.toInt() * other.denominator.toInt()
+    ) else throw Error("同じ型で計算して")
 }
 
-operator fun MatrixElement.plus(other: MatrixElement): MatrixElement = MatrixElement(
-    numerator * other.denominator.toInt() + other.numerator * denominator.toInt(),
-    denominator.toInt() * other.denominator.toInt()
-)
-
-operator fun MatrixElement.minus(other: MatrixElement): MatrixElement = MatrixElement(
-    numerator * other.denominator.toInt() - other.numerator * denominator.toInt(),
-    denominator.toInt() * other.denominator.toInt()
-)
-
-operator fun Int.times(other: MatrixElement) = MatrixElement(other.numerator * this, other.denominator)
-
-operator fun MatrixElement.times(other: MatrixElement) = MatrixElement(
-    numerator * other.numerator,
-    denominator * other.denominator
-)
+operator fun Int.times(other: MatrixElement) = other * this
 
 /*
     分母に使うやつ

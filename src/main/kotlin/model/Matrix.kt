@@ -4,7 +4,16 @@ import java.lang.Exception
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-data class Matrix(val comp: List<List<MatrixElement>>) {
+interface MElement {
+    fun value() : Double
+    fun reciprocal() : MElement
+    operator fun times(other: Int) : MElement
+    operator fun times(other: MElement) : MElement
+    operator fun plus(other: MElement): MElement
+    operator fun minus(other: MElement): MElement
+}
+
+data class Matrix(val comp: List<List<MElement>>) {
     companion object {
         fun make(comp: List<List<Int>>): Matrix {
             return when {
@@ -33,11 +42,11 @@ fun Matrix.makeMatrixSwappedRow(idx1: Int, idx2: Int) = Matrix(
 )
 fun Matrix.makeMatrixMultipleRow(idx: Int, times: Int) = Matrix(
     comp.mapIndexed { index, list ->
-        if (index == idx) { list.map { times * it }} else list
+        if (index == idx) { list.map { it * times }} else list
     }
 )
 
-fun Matrix.makeMatrixMultipleRow(idx: Int, times: MatrixElement) = Matrix(
+fun Matrix.makeMatrixMultipleRow(idx: Int, times: MElement) = Matrix(
     comp.mapIndexed { index, list ->
         if (index == idx) { list.map { times * it }} else list
     }
@@ -45,11 +54,11 @@ fun Matrix.makeMatrixMultipleRow(idx: Int, times: MatrixElement) = Matrix(
 
 fun Matrix.makeMatrixAddMultipleRow(toIdx: Int, times: Int, fromIdx: Int) = Matrix(
     comp.mapIndexed { index, list ->
-        if (index == toIdx) { list.zip(row(fromIdx)) { to, from -> to + (times * from )}} else list
+        if (index == toIdx) { list.zip(row(fromIdx)) { to, from -> to + (from * times)}} else list
     }
 )
 
-fun Matrix.makeMatrixAddMultipleRow(toIdx: Int, times: MatrixElement, fromIdx: Int) = Matrix(
+fun Matrix.makeMatrixAddMultipleRow(toIdx: Int, times: MElement, fromIdx: Int) = Matrix(
     comp.mapIndexed { index, list ->
         if (index == toIdx) { list.zip(row(fromIdx)) { to, from -> to + (times * from )}} else list
     }
@@ -72,7 +81,7 @@ fun Matrix.rowReducted(colNum: Int = colNumber()) : Matrix {
         // 各行について0になるように調整
         0.until(rowNumber()).forEach {
             if (it != colIdx) {
-                reducted = reducted.makeMatrixAddMultipleRow(it, -1 *  reducted.comp[it][colIdx], colIdx)
+                reducted = reducted.makeMatrixAddMultipleRow(it, reducted.comp[it][colIdx] * -1, colIdx)
             }
         }
     }
@@ -120,7 +129,7 @@ fun Matrix.isSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()).al
 
 fun Matrix.isSkewSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()).all { rowIdx ->
     (rowIdx + 1).until(colNumber()).all { colIdx ->
-        comp[rowIdx][colIdx] == -1 * comp[colIdx][rowIdx]
+        comp[rowIdx][colIdx] == comp[colIdx][rowIdx] * -1
     }
 }
 
@@ -139,7 +148,7 @@ fun Matrix.output() {
     }
 }
 
-fun Matrix.det() : MatrixElement {
+fun Matrix.det() : MElement {
     if (rowNumber() != colNumber()) {
         throw Exception("the determinant needs same row & col length.")
     }
@@ -170,7 +179,7 @@ fun Matrix.eigenValue(): List<Double> {
     }
 }
 
-fun solve2d(comp: List<List<MatrixElement>>): List<Double> {
+fun solve2d(comp: List<List<MElement>>): List<Double> {
     val aPlusD = (comp[0][0] + comp[1][1]).value()
     val aTimesD = (comp[0][0] * comp[1][1]).value()
     val bTimesC = (comp[0][1] * comp[1][0]).value()
@@ -208,10 +217,11 @@ operator fun Matrix.minus(other: Matrix) : Matrix {
 }
 
 operator fun Matrix.times(times: Int) : Matrix = Matrix(
-    comp.map { it.map { ele -> times * ele}}
+    comp.map { it.map { ele -> ele * times }}
 )
 
 operator fun Int.times(other: Matrix) = other * this
+operator fun Int.times(other: MElement) = other * this
 
 operator fun Matrix.times(other: Matrix) : Matrix {
     if (this.colNumber() != other.rowNumber()) {
@@ -221,7 +231,7 @@ operator fun Matrix.times(other: Matrix) : Matrix {
     return Matrix(
         comp.map { lhsRow -> 0.until(other.colNumber()).map { idx -> lhsRow.zip(other.col(idx)) { it1, it2 ->
                 it1 * it2
-            }.reduce { acc, matrixElement -> acc + matrixElement }
+            }.reduce { acc, mElement -> acc + mElement }
         }}
     )
 }
