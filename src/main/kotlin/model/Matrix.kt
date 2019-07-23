@@ -2,6 +2,7 @@ package model
 
 import java.lang.Exception
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 data class Matrix(val comp: List<List<MatrixElement>>) {
     companion object {
@@ -157,6 +158,27 @@ fun Matrix.minor(row: Int, col: Int) = Matrix(
     comp.filterIndexed { index, list -> index != row }
         .map { it.filterIndexed { index, ele -> index != col } }
 )
+
+fun Matrix.eigenValue(): List<Double> {
+    if (rowNumber() != colNumber()) {
+        throw Exception("the eigenvalues need same row & col length.")
+    }
+    return when(rowNumber()) {
+        0, 1 -> throw Exception("the eigenvalues need the row & col length more than 1.")
+        2 -> solve2d(comp)
+        else -> throw Exception("未実装")
+    }
+}
+
+fun solve2d(comp: List<List<MatrixElement>>): List<Double> {
+    val aPlusD = (comp[0][0] + comp[1][1]).value()
+    val aTimesD = (comp[0][0] * comp[1][1]).value()
+    val bTimesC = (comp[0][1] * comp[1][0]).value()
+    return listOf(
+        0.5 * ( aPlusD + sqrt(aPlusD.pow(2) - 4.0 * (aTimesD - bTimesC)) ),
+        0.5 * ( aPlusD - sqrt(aPlusD.pow(2) - 4.0 * (aTimesD - bTimesC)) )
+    )
+}
 
 
 /*

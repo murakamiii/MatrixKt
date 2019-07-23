@@ -523,4 +523,15 @@ internal class MatrixKtTest {
         ).det()
         assertEquals(-336.0, det4.value())
     }
+
+    @Test
+    fun eigenValue() {
+        val eigenValues = Matrix.make(
+            listOf(
+                listOf(2, -3),
+                listOf(-2, 1)
+            )
+        ).eigenValue()
+        assertEquals(listOf(4.0, -1.0), eigenValues)
+    }
 }

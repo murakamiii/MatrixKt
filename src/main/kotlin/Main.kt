@@ -209,4 +209,12 @@ fun main() {
             listOf(1, 5, 0, 0, 0)
         )
     ).det())
+
+    println("固有値: ")
+    println(Matrix.make(
+        listOf(
+            listOf(8, 1),
+            listOf(4, 5)
+        )
+    ).eigenValue())
 }
