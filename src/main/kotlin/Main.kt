@@ -18,39 +18,12 @@ fun main() {
     )
     val hmat = makeCorrMatrix(testlist)
     println(hmat)
-    println(hmat.header)
-    println(hmat.value)
 
-    val matt = Matrix(
-        listOf(
-            listOf(
-                DoubleElement(1.0),
-                DoubleElement(3.0),
-                DoubleElement(3.0),
-                DoubleElement(1.0)
-            ),
-            listOf(
-                DoubleElement(3.0),
-                DoubleElement(2.0),
-                DoubleElement(0.0),
-                DoubleElement(2.0)
-            ),
-            listOf(
-                DoubleElement(3.0),
-                DoubleElement(0.0),
-                DoubleElement(3.0),
-                DoubleElement(1.0)
-            ),
-            listOf(
-                DoubleElement(1.0),
-                DoubleElement(2.0),
-                DoubleElement(1.0),
-                DoubleElement(1.0)
-            )
-        )
-    )
-    val res = jacobi(matt)
+    val res = jacobi(hmat.value)
 
     println("ループ数: ${res.first}")
     println("結果:\n ${res.second}")
+
+    val pca = pcaComponent(res, hmat.header)
+    println(pca)
 }

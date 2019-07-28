@@ -83,7 +83,7 @@ fun jacobi(mat: Matrix) : Pair<Int, List<EigenPair>> {
     }
 
     val eigenValues = resultMatrix.comp.mapIndexed { rowIdx, list -> list.filterIndexed { colIdx, ele -> colIdx == rowIdx }.first().value()}
-    val eigenPairs = eigenValues.mapIndexed { index, d -> EigenPair(d, eigenVectors.row(index).map { it.value() }) }
+    val eigenPairs = eigenValues.mapIndexed { index, d -> EigenPair(d, eigenVectors.col(index).map { it.value() }) }
 
     return Pair(loopCount, eigenPairs)
 }
@@ -114,4 +114,62 @@ private fun makeGivens(matrix: Matrix, maxIndexed: Triple<Int, Int, MElement>): 
     return Matrix(
         comp
     )
-} 
+}
+
+data class ImportanceComponents(val standardDeviation: Double, val proportionOfVariance: Double, val cumulativeProportion: Double)
+data class PCAResult(val importance: List<ImportanceComponents>, val rotation: List<Map<String, Double>>) {
+    override fun toString(): String {
+        val iTitle = "Importance of components:\n\n"
+        var iHeader = "                      "
+        var sd = "Standard deviation    "
+        var pv = "Proportion of Variance"
+        var cp = "Cumulative Proportion "
+        importance.forEachIndexed{ idx,  it ->
+            iHeader +=  "    PC${idx + 1}"
+            sd += String.format(" %.4f", it.standardDeviation)
+            pv += String.format(" %.4f", it.proportionOfVariance)
+            cp += String.format(" %.4f", it.cumulativeProportion)
+        }
+
+        val maxKeyLength = rotation.first().keys.maxBy { it.length }!!.length
+        var rHeader = " ".repeat(maxKeyLength + 1)
+        println("rHeader: ${rHeader.length}")
+        var ro = rotation.first().keys.map { it to "" }.toMap()
+        rotation.forEachIndexed { idx, map ->
+            rHeader += "PC${idx + 1}".padStart(9)
+            ro = ro.mapValues { it.value.plus(if (map[it.key]!! > 0.0) " " else "") + String.format(" %.5f", map[it.key]) }
+        }
+        val roStr = ro.map { "${it.key.padStart(maxKeyLength)} ${it.value}\n" }.joinToString(separator = "")
+        return iTitle + iHeader + "\n" + sd + "\n" + pv + "\n" + cp + "\n\n" + rHeader + "\n" + roStr
+    }
+}
+
+fun pcaComponent(result: Pair<Int, List<EigenPair>>, header: List<String>) : PCAResult {
+    val eigens = result.second
+
+    val sds = eigens.sortedByDescending { it.eigenValue }
+
+    val sum = sds.sumByDouble { it.eigenValue }
+
+    val ics = sds.fold(emptyList<ImportanceComponents>()) { acc, ele ->
+        if (acc.isEmpty()) {
+            listOf(ImportanceComponents(
+                sqrt(ele.eigenValue),
+                ele.eigenValue / sum,
+                ele.eigenValue / sum)
+            )
+        } else {
+            acc.plus(
+                ImportanceComponents(
+                    sqrt(ele.eigenValue),
+                    ele.eigenValue / sum,
+                    acc.last().cumulativeProportion + (ele.eigenValue / sum)
+                )
+            )
+        }
+    }
+    val rotation = sds.foldIndexed(emptyList<Map<String, Double>>()) { pcIdx, acc, ele ->
+        acc.plus(header.mapIndexed { idx, s ->  s to sds[pcIdx].eigenVectors[idx] }.toMap())
+    }
+    return PCAResult(ics, rotation)
+}
