@@ -50,8 +50,8 @@ data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) : MEle
         denominator.toInt() * other.denominator.toInt()
     ) else throw Error("同じ型で計算して")
 
-    override fun zero() = DoubleElement(0.0)
-    override fun one() = DoubleElement(1.0)
+    override fun zero() = MatrixElement(0)
+    override fun one() = MatrixElement(1)
 }
 
 operator fun Int.times(other: MatrixElement) = other * this
