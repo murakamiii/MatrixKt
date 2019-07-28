@@ -7,6 +7,8 @@ import kotlin.math.sqrt
 interface MElement {
     fun value() : Double
     fun reciprocal() : MElement
+    fun zero() : MElement
+    fun one() : MElement
     operator fun times(other: Int) : MElement
     operator fun times(other: MElement) : MElement
     operator fun plus(other: MElement): MElement
@@ -22,6 +24,13 @@ data class Matrix(val comp: List<List<MElement>>) {
                 !comp.all { it.size == comp.first().size } -> throw Exception("Matrix.make format error")
                 else -> Matrix(comp.map { it.map { MatrixElement(it)}})
             }
+        }
+    }
+
+    override fun toString(): String {
+        return this.comp.foldIndexed("") { idx, acc, list ->
+            acc + list.joinToString(prefix = " ", postfix = "\t") { it.toString() } +
+                    "\n"
         }
     }
 }
@@ -89,13 +98,15 @@ fun Matrix.rowReducted(colNum: Int = colNumber()) : Matrix {
     return reducted
 }
 
+fun Matrix.zero() : MElement = this.comp[0][0].zero()
+fun Matrix.one() : MElement = this.comp[0][0].one()
 fun Matrix.identity(): Matrix {
     if (rowNumber() != colNumber()) {
         throw Exception("the identity needs same row & col length.")
     }
-    val c = 0.until(rowNumber()).map { rowIdx -> 0.until(colNumber()).map { if (rowIdx == it) 1 else 0 }}
+    val c = 0.until(rowNumber()).map { rowIdx -> 0.until(colNumber()).map { if (rowIdx == it) one() else zero() }}
 
-    return Matrix.make(c)
+    return Matrix(c)
 }
 
 fun Matrix.inverse() : Matrix {

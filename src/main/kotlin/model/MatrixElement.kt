@@ -29,10 +29,16 @@ data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) : MEle
 
     override operator fun times(other: Int) = MatrixElement(this.numerator * other, this.denominator)
 
-    override fun times(other: MElement) = if (other is MatrixElement) MatrixElement(
-        numerator * other.numerator,
-        denominator * other.denominator
-    ) else throw Error("同じ型で計算して")
+    override fun times(other: MElement) = when (other) {
+        is MatrixElement -> MatrixElement(
+            numerator * other.numerator,
+            denominator * other.denominator
+        )
+        is DoubleElement -> DoubleElement(
+            this.value() * other.value()
+        )
+        else -> throw Error("同じ型で計算して")
+    }
 
     override fun plus(other: MElement) = if (other is MatrixElement) MatrixElement(
         numerator * other.denominator.toInt() + other.numerator * denominator.toInt(),
@@ -43,6 +49,9 @@ data class MatrixElement(val numerator: Int, val denominator: NonZeroInt) : MEle
         numerator * other.denominator.toInt() - other.numerator * denominator.toInt(),
         denominator.toInt() * other.denominator.toInt()
     ) else throw Error("同じ型で計算して")
+
+    override fun zero() = MatrixElement(0)
+    override fun one() = MatrixElement(1)
 }
 
 operator fun Int.times(other: MatrixElement) = other * this
