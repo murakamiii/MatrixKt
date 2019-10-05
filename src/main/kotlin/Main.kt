@@ -1,8 +1,17 @@
 import model.*
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
+import org.apache.commons.csv.CSVRecord
+import java.io.BufferedReader
 import java.lang.Exception
 
 fun main() {
 
+//    var fileReader: BufferedReader? = null
+//    val perser = CSVParser(fileReader,
+//        CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim())
+//    val first: CSVRecord = perser.records.first()
+//    first.toMap()
 
     // https://qiita.com/NoriakiOshita/items/460247bb57c22973a5f0
     val testlist = listOf(
