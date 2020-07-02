@@ -12,14 +12,14 @@ data class DecimalElement(val element: BigDecimal) : MElement {
     override fun one(): MElement = DecimalElement(BigDecimal.ONE)
 
     override fun times(other: Int): MElement =
-        DecimalElement(this.element * BigDecimal.valueOf(other.toLong()))
+        DecimalElement(this.element * other.toBigDecimal())
 
     override fun times(other: MElement): MElement =
-        DecimalElement(this.element * BigDecimal.valueOf(other.value()))
+        DecimalElement(this.element * other.value().toBigDecimal())
 
     override fun plus(other: MElement): MElement =
-        DecimalElement(this.element + BigDecimal.valueOf(other.value()))
+        DecimalElement(this.element + other.value().toBigDecimal())
 
     override fun minus(other: MElement): MElement =
-        DecimalElement(this.element + BigDecimal.valueOf(other.value()))
+        DecimalElement(this.element + other.value().toBigDecimal())
 }
