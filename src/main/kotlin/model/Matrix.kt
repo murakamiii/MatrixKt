@@ -1,11 +1,13 @@
 package model
 
 import java.lang.Exception
+import java.math.BigDecimal
+import java.math.MathContext
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 interface MElement {
-    fun value() : Double
+    fun value() : BigDecimal
     fun reciprocal() : MElement
     fun zero() : MElement
     fun one() : MElement
@@ -22,7 +24,7 @@ data class Matrix(val comp: List<List<MElement>>) {
                 comp.isEmpty() -> throw Exception("empty error")
                 comp.first().isEmpty() -> throw Exception("empty error")
                 !comp.all { it.size == comp.first().size } -> throw Exception("Matrix.make format error")
-                else -> Matrix(comp.map { it.map { MatrixElement(it)}})
+                else -> Matrix(comp.map { it.map { DecimalElement(it)}})
             }
         }
     }
@@ -78,8 +80,8 @@ fun Matrix.rowReducted(colNum: Int = colNumber()) : Matrix {
 
     0.until(colNum).forEach { colIdx ->
         // 0でないならスワップする
-        if (reducted.comp[colIdx][colIdx].value() == 0.0) {
-            val swapTarget = reducted.comp.drop(colIdx + 1).indexOfFirst { it[colIdx].value() != 0.0 }
+        if (reducted.comp[colIdx][colIdx].value() == BigDecimal.ZERO) {
+            val swapTarget = reducted.comp.drop(colIdx + 1).indexOfFirst { it[colIdx].value() != BigDecimal.ZERO}
             if (swapTarget == -1) { return@forEach }
             reducted = reducted.makeMatrixSwappedRow(colIdx, swapTarget + colIdx + 1)
         }
@@ -179,7 +181,7 @@ fun Matrix.minor(row: Int, col: Int) = Matrix(
         .map { it.filterIndexed { index, ele -> index != col } }
 )
 
-fun Matrix.eigenValue(): List<Double> {
+fun Matrix.eigenValue(): List<BigDecimal> {
     if (rowNumber() != colNumber()) {
         throw Exception("the eigenvalues need same row & col length.")
     }
@@ -190,13 +192,13 @@ fun Matrix.eigenValue(): List<Double> {
     }
 }
 
-fun solve2d(comp: List<List<MElement>>): List<Double> {
+fun solve2d(comp: List<List<MElement>>): List<BigDecimal> {
     val aPlusD = (comp[0][0] + comp[1][1]).value()
     val aTimesD = (comp[0][0] * comp[1][1]).value()
     val bTimesC = (comp[0][1] * comp[1][0]).value()
     return listOf(
-        0.5 * ( aPlusD + sqrt(aPlusD.pow(2) - 4.0 * (aTimesD - bTimesC)) ),
-        0.5 * ( aPlusD - sqrt(aPlusD.pow(2) - 4.0 * (aTimesD - bTimesC)) )
+        0.5.toBigDecimal() * ( aPlusD + (aPlusD.pow(2) - 4.0.toBigDecimal() * (aTimesD - bTimesC)).sqrt(MathContext.DECIMAL64) ),
+        0.5.toBigDecimal() * ( aPlusD - (aPlusD.pow(2) - 4.0.toBigDecimal() * (aTimesD - bTimesC)).sqrt(MathContext.DECIMAL64 ))
     )
 }
 
