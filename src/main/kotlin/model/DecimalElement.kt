@@ -3,6 +3,8 @@ package model
 import java.math.BigDecimal
 
 data class DecimalElement(val element: BigDecimal) : MElement {
+    constructor(number: Int) : this(number.toBigDecimal())
+
     override fun value(): Double = this.element.toDouble()
 
     override fun reciprocal(): MElement = DecimalElement(BigDecimal.ONE / this.element)
