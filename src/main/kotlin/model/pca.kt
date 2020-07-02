@@ -39,7 +39,7 @@ fun makeCorrMatrix(doubleDataList: List<Map<String, Double>>) : MatrixWithHeader
     for ((rowIdx, row) in header.withIndex()) {
         for ((colIdx, col) in header.withIndex()) {
             when {
-                rowIdx == colIdx -> matrix[rowIdx].add(DecimalElement(0))
+                rowIdx == colIdx -> matrix[rowIdx].add(DecimalElement(1))
                 rowIdx > colIdx -> matrix[rowIdx].add(matrix[colIdx][rowIdx])
                 else -> matrix[rowIdx].add(
                     DecimalElement(
