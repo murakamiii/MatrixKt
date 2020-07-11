@@ -3,6 +3,7 @@ package model
 import java.math.BigDecimal
 import java.math.MathContext
 import kotlin.math.pow
+import ch.obermuhlner.math.big.BigDecimalMath.sqrt
 
 interface MElement {
     fun value() : BigDecimal
