@@ -10,6 +10,7 @@ interface MElement {
     fun value() : BigDecimal
     fun reciprocal() : MElement
     fun zero() : MElement
+    fun isZero() : Boolean
     fun one() : MElement
     operator fun times(other: Int) : MElement
     operator fun times(other: MElement) : MElement
@@ -80,7 +81,7 @@ fun Matrix.rowReducted(colNum: Int = colNumber()) : Matrix {
 
     0.until(colNum).forEach { colIdx ->
         // 0でないならスワップする
-        if (reducted.comp[colIdx][colIdx].value() == BigDecimal.ZERO) {
+        if (reducted.comp[colIdx][colIdx].isZero()) {
             val swapTarget = reducted.comp.drop(colIdx + 1).indexOfFirst { it[colIdx].value() != BigDecimal.ZERO}
             if (swapTarget == -1) { return@forEach }
             reducted = reducted.makeMatrixSwappedRow(colIdx, swapTarget + colIdx + 1)
@@ -125,7 +126,7 @@ fun Matrix.inverse() : Matrix {
 
 fun Matrix.isDiagonal() = comp.withIndex().all { indexedRow ->
     indexedRow.value.withIndex().all { indexedCol ->
-        indexedRow.index == indexedCol.index || indexedCol.value.equals(0)
+        indexedRow.index == indexedCol.index || indexedCol.value.isZero()
     }
 }
 
@@ -148,7 +149,7 @@ fun Matrix.isSkewSymmetric() = rowNumber() == colNumber() && 0.until(rowNumber()
 
 fun Matrix.isUpperTriangular() = 0.until(rowNumber()).all { rowIdx ->
     (rowIdx - 1).downTo(0).all { colIdx ->
-        comp[rowIdx][colIdx].equals(0)
+        comp[rowIdx][colIdx].isZero()
     }
 }
 
