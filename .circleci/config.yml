@@ -17,11 +17,8 @@ jobs:
           name: check java version before install
           command: java -version
       - run:
-          name: install jdk11
-          command: sudo add-apt-repository ppa:openjdk-r/ppa & sudo apt-get update & sudo apt install openjdk-11-jdk
-      - run:
-          name: check java version after install
-          command: java -version
+          name: Download Dependencies
+          command: ./gradlew dependencies
       - save_cache:
           paths:
             - ~/.gradle
