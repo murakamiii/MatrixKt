@@ -1,10 +1,8 @@
 package model
 
-import java.lang.Exception
 import java.math.BigDecimal
 import java.math.MathContext
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 interface MElement {
     fun value() : BigDecimal

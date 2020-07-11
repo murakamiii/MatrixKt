@@ -93,9 +93,6 @@ fun jacobi(mat: Matrix) : Pair<Int, List<EigenPair>> {
         resultMatrix = givens.transposed() * resultMatrix * givens
         eigenVectors *= givens
         loopCount++
-
-//        println("##### loop: ${loopCount}")
-//        println("maxIndexed: ${maxIndexed.first}, ${maxIndexed.second}, ${maxIndexed.third}\n${resultMatrix}\n")
     }
 
     val eigenValues = resultMatrix.comp.mapIndexed { rowIdx, list -> list.filterIndexed { colIdx, ele -> colIdx == rowIdx }.first().value()}
