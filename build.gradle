@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile 'org.apache.commons:commons-csv:1.7'
+    compile 'ch.obermuhlner:big-math:2.3.0'
 
     testCompile "org.junit.jupiter:junit-jupiter-api:5.5.0-RC2"
     testCompile "org.junit.jupiter:junit-jupiter-engine:5.5.0-RC2"

@@ -476,8 +476,8 @@ internal class MatrixKtTest {
         )
         val inv = Matrix(
             listOf(
-                listOf(MatrixElement(1), MatrixElement(0)),
-                listOf(MatrixElement(0), MatrixElement(1, 2))
+                listOf(DecimalElement(1), DecimalElement(0)),
+                listOf(DecimalElement(0), DecimalElement(0.5.toBigDecimal()))
             )
         )
         assertEquals(inv, mat.inverse())
@@ -491,7 +491,7 @@ internal class MatrixKtTest {
                 listOf(1, 4)
             )
         ).det()
-        assertEquals(5.0, det1.value())
+        assertTrue(5.0.toBigDecimal().compareTo(det1.value()) == 0)
 
         val det2 = Matrix.make(
             listOf(
@@ -500,7 +500,7 @@ internal class MatrixKtTest {
                 listOf(3, -1, 1)
             )
         ).det()
-        assertEquals(4.0, det2.value())
+        assertTrue(4.0.toBigDecimal().compareTo(det2.value()) == 0)
 
         val det3 = Matrix.make(
             listOf(
@@ -510,7 +510,7 @@ internal class MatrixKtTest {
                 listOf(1, 0, 3, -2)
             )
         ).det()
-        assertEquals(-6.0, det3.value())
+        assertTrue((-6.0).toBigDecimal().compareTo(det3.value()) == 0)
 
         val det4 = Matrix.make(
             listOf(
@@ -521,7 +521,7 @@ internal class MatrixKtTest {
                 listOf(0, 3, 2, 1, -1)
             )
         ).det()
-        assertEquals(-336.0, det4.value())
+        assertTrue((-336.0).toBigDecimal().compareTo(det4.value()) == 0)
     }
 
     @Test
@@ -532,6 +532,6 @@ internal class MatrixKtTest {
                 listOf(-2, 1)
             )
         ).eigenValue()
-        assertEquals(listOf(4.0, -1.0), eigenValues)
+        assertEquals(listOf(4.0.toBigDecimal(), -1.0.toBigDecimal()), eigenValues)
     }
 }

@@ -3,11 +3,10 @@ package model
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import kotlin.math.abs
-
 /*
     しんどいのでスモークテストのみ
  */
+
 internal class PcaKtTest {
 
     @Test
@@ -30,19 +29,19 @@ internal class PcaKtTest {
         val expectedMatrix = Matrix(
             listOf(
                 listOf(
-                    DoubleElement(1.0),
-                    DoubleElement(0.31125089218960195),
-                    DoubleElement(0.8181136457904)
+                    DecimalElement(1),
+                    DecimalElement(0.31125089218960195.toBigDecimal()),
+                    DecimalElement(0.8181136457904.toBigDecimal())
                 ),
                 listOf(
-                    DoubleElement(0.31125089218960195),
-                    DoubleElement(1.0),
-                    DoubleElement(0.7093174088556866)
+                    DecimalElement(0.31125089218960195.toBigDecimal()),
+                    DecimalElement(1),
+                    DecimalElement(0.7093174088556866.toBigDecimal())
                 ),
                 listOf(
-                    DoubleElement(0.8181136457904),
-                    DoubleElement(0.7093174088556866),
-                    DoubleElement(1.0)
+                    DecimalElement(0.8181136457904.toBigDecimal()),
+                    DecimalElement(0.7093174088556866.toBigDecimal()),
+                    DecimalElement(1)
                 )
             )
         )
@@ -55,58 +54,55 @@ internal class PcaKtTest {
         val mat = Matrix(
             listOf(
                 listOf(
-                    DoubleElement(1.0),
-                    DoubleElement(3.0),
-                    DoubleElement(3.0),
-                    DoubleElement(1.0)
+                    DecimalElement(1),
+                    DecimalElement(3),
+                    DecimalElement(3),
+                    DecimalElement(1)
                 ),
                 listOf(
-                    DoubleElement(3.0),
-                    DoubleElement(2.0),
-                    DoubleElement(0.0),
-                    DoubleElement(2.0)
+                    DecimalElement(3),
+                    DecimalElement(2),
+                    DecimalElement(0),
+                    DecimalElement(2)
                 ),
                 listOf(
-                    DoubleElement(3.0),
-                    DoubleElement(0.0),
-                    DoubleElement(3.0),
-                    DoubleElement(1.0)
+                    DecimalElement(3),
+                    DecimalElement(0),
+                    DecimalElement(3),
+                    DecimalElement(1)
                 ),
                 listOf(
-                    DoubleElement(1.0),
-                    DoubleElement(2.0),
-                    DoubleElement(1.0),
-                    DoubleElement(1.0)
+                    DecimalElement(1),
+                    DecimalElement(2),
+                    DecimalElement(1),
+                    DecimalElement(1)
                 )
             )
         )
         val jacpbied = jacobi(mat)
         assertEquals(4, jacpbied.second.count())
-        assertEquals(-2.717, jacpbied.second[0].eigenValue, 0.001)
-        assertEquals(6.934, jacpbied.second[1].eigenValue, 0.001)
-        assertEquals(2.745, jacpbied.second[2].eigenValue, 0.001)
-        assertEquals(0.038_67, jacpbied.second[3].eigenValue, 0.000_01)
-
-        assertEquals(7.073E-01, jacpbied.second[0].eigenVectors[0], 0.000_1)
-        assertEquals(5.822E-01, jacpbied.second[1].eigenVectors[0], 0.000_1)
-        assertEquals(2.994E-02, jacpbied.second[2].eigenVectors[0], 0.000_01)
-        assertEquals(-3.999E-01, jacpbied.second[3].eigenVectors[0], 0.000_1)
-
-        assertEquals(-5.384E-01, jacpbied.second[0].eigenVectors[1], 0.000_1)
-        assertEquals(4.984E-01, jacpbied.second[1].eigenVectors[1], 0.000_1)
-        assertEquals(-6.222E-01, jacpbied.second[2].eigenVectors[1], 0.000_1)
-        assertEquals(-2.732E-01, jacpbied.second[3].eigenVectors[1], 0.000_1)
-
-        assertEquals(-4.077E-01, jacpbied.second[0].eigenVectors[2], 0.000_1)
-        assertEquals(5.345E-01, jacpbied.second[1].eigenVectors[2], 0.000_1)
-        assertEquals(7.318E-01, jacpbied.second[2].eigenVectors[2], 0.000_1)
-        assertEquals(1.121E-01, jacpbied.second[3].eigenVectors[2], 0.000_1)
-
-        assertEquals(2.091E-01, jacpbied.second[0].eigenVectors[3], 0.000_1)
-        assertEquals(3.562E-01, jacpbied.second[1].eigenVectors[3], 0.000_1)
-        assertEquals(-2.766E-01, jacpbied.second[2].eigenVectors[3], 0.000_1)
-        assertEquals(8.677E-01, jacpbied.second[3].eigenVectors[3], 0.000_1)
+        assertTrue(((-2.717).toBigDecimal() - jacpbied.second[0].eigenValue).abs() < 0.001.toBigDecimal())
+        assertTrue((6.934.toBigDecimal() - jacpbied.second[1].eigenValue).abs() < 0.001.toBigDecimal())
+        assertTrue((2.745.toBigDecimal() - jacpbied.second[2].eigenValue).abs() < 0.001.toBigDecimal())
+        assertTrue((0.038_67.toBigDecimal() - jacpbied.second[3].eigenValue).abs() < 0.000_01.toBigDecimal())
+        assertTrue((7.073E-01.toBigDecimal() - jacpbied.second[0].eigenVectors[0]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((5.822E-01.toBigDecimal() - jacpbied.second[1].eigenVectors[0]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((2.994E-02.toBigDecimal() - jacpbied.second[2].eigenVectors[0]).abs() < 0.000_01.toBigDecimal())
+        assertTrue((-3.999E-01.toBigDecimal() - jacpbied.second[3].eigenVectors[0]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((-5.384E-01.toBigDecimal() - jacpbied.second[0].eigenVectors[1]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((4.984E-01.toBigDecimal() - jacpbied.second[1].eigenVectors[1]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((-6.222E-01.toBigDecimal() - jacpbied.second[2].eigenVectors[1]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((-2.732E-01.toBigDecimal() - jacpbied.second[3].eigenVectors[1]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((-4.077E-01.toBigDecimal() - jacpbied.second[0].eigenVectors[2]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((5.345E-01.toBigDecimal() - jacpbied.second[1].eigenVectors[2]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((7.318E-01.toBigDecimal() - jacpbied.second[2].eigenVectors[2]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((1.121E-01.toBigDecimal() - jacpbied.second[3].eigenVectors[2]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((2.091E-01.toBigDecimal() - jacpbied.second[0].eigenVectors[3]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((3.562E-01.toBigDecimal() - jacpbied.second[1].eigenVectors[3]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((-2.766E-01.toBigDecimal() - jacpbied.second[2].eigenVectors[3]).abs() < 0.000_1.toBigDecimal())
+        assertTrue((8.677E-01.toBigDecimal() - jacpbied.second[3].eigenVectors[3]).abs() < 0.000_1.toBigDecimal())
     }
+
 
     @Test
     fun pcaComponent() {
@@ -125,24 +121,24 @@ internal class PcaKtTest {
         val res = jacobi(hmat.value)
         val pca = pcaComponent(res, hmat.header)
 
-        assertEquals( 1.4995,pca.importance[0].standardDeviation, 0.000_1 )
-        assertEquals( 0.8322,pca.importance[1].standardDeviation, 0.000_1 )
-        assertEquals( 0.2430,pca.importance[2].standardDeviation, 0.000_1 )
-        assertEquals( 0.7495,pca.importance[0].proportionOfVariance, 0.000_1 )
-        assertEquals( 0.2308,pca.importance[1].proportionOfVariance, 0.000_1 )
-        assertEquals( 0.0197,pca.importance[2].proportionOfVariance, 0.000_1 )
-        assertEquals( 0.7495,pca.importance[0].cumulativeProportion, 0.000_1 )
-        assertEquals( 0.9803,pca.importance[1].cumulativeProportion, 0.000_1 )
-        assertEquals( 1.0000,pca.importance[2].cumulativeProportion, 0.000_1 )
+        assertTrue( (1.4995.toBigDecimal() - pca.importance[0].standardDeviation).abs() < 0.000_1.toBigDecimal())
+        assertTrue( (0.8322.toBigDecimal() - pca.importance[1].standardDeviation).abs() < 0.000_1.toBigDecimal())
+        assertTrue( (0.2430.toBigDecimal() - pca.importance[2].standardDeviation).abs() < 0.000_1.toBigDecimal())
+        assertTrue((0.7495.toBigDecimal() - pca.importance[0].proportionOfVariance).abs() < 0.000_1.toBigDecimal())
+        assertTrue((0.2308.toBigDecimal() - pca.importance[1].proportionOfVariance).abs() < 0.000_1.toBigDecimal())
+        assertTrue((0.0197.toBigDecimal() - pca.importance[2].proportionOfVariance).abs() < 0.000_1.toBigDecimal())
+        assertTrue((0.7495.toBigDecimal() - pca.importance[0].cumulativeProportion).abs() < 0.000_1.toBigDecimal())
+        assertTrue((0.9803.toBigDecimal() - pca.importance[1].cumulativeProportion).abs() < 0.000_1.toBigDecimal())
+        assertTrue((1.0000.toBigDecimal() - pca.importance[2].cumulativeProportion).abs() < 0.000_1.toBigDecimal())
 
-        assertEquals( 0.55664, abs(pca.rotation[0].getValue("Python")), 0.000_01)
-        assertEquals( 0.51094, abs(pca.rotation[0].getValue("Java")), 0.000_01)
-        assertEquals( 0.65505, abs(pca.rotation[0].getValue("fee")), 0.000_01)
-        assertEquals( 0.64384, abs(pca.rotation[1].getValue("Python")), 0.000_01)
-        assertEquals( 0.76362, abs(pca.rotation[1].getValue("Java")), 0.000_01)
-        assertEquals( 0.04853, abs(pca.rotation[1].getValue("fee")), 0.000_01)
-        assertEquals( 0.52501, abs(pca.rotation[2].getValue("Python")), 0.000_01)
-        assertEquals( 0.39474, abs(pca.rotation[2].getValue("Java")), 0.000_01)
-        assertEquals( 0.75402, abs(pca.rotation[2].getValue("fee")), 0.000_01)
+        assertTrue((0.55664.toBigDecimal() - (pca.rotation[0].getValue("Python")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.51094.toBigDecimal() - (pca.rotation[0].getValue("Java")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.65505.toBigDecimal() - (pca.rotation[0].getValue("fee")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.64384.toBigDecimal() - (pca.rotation[1].getValue("Python")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.76362.toBigDecimal() - (pca.rotation[1].getValue("Java")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.04853.toBigDecimal() - (pca.rotation[1].getValue("fee")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.52501.toBigDecimal() - (pca.rotation[2].getValue("Python")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.39474.toBigDecimal() - (pca.rotation[2].getValue("Java")).abs()).abs() < 0.000_01.toBigDecimal())
+        assertTrue((0.75402.toBigDecimal() - (pca.rotation[2].getValue("fee")).abs()).abs() < 0.000_01.toBigDecimal())
     }
 }
