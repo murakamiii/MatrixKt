@@ -1,4 +1,6 @@
-import model.*
+import model.jacobi
+import model.makeCorrMatrix
+import model.pcaComponent
 
 fun main() {
 

@@ -215,7 +215,7 @@ operator fun Matrix.plus(other: Matrix): Matrix {
         comp.zip(other.comp) { it1, it2 ->
             it1.zip(it2) { el1, el2 ->
                 el1 + el2
-            } 
+            }
         }
     )
 }
@@ -228,7 +228,7 @@ operator fun Matrix.minus(other: Matrix): Matrix {
         comp.zip(other.comp) { it1, it2 ->
             it1.zip(it2) { el1, el2 ->
                 el1 - el2
-            } 
+            }
         }
     )
 }
@@ -251,7 +251,7 @@ operator fun Matrix.times(other: Matrix): Matrix {
                 lhsRow.zip(other.col(idx)) { it1, it2 ->
                     it1 * it2
                 }.reduce { acc, mElement -> acc + mElement }
-            } 
+            }
         }
     )
 }

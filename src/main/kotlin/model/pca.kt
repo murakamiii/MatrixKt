@@ -1,9 +1,9 @@
 package model
 
-import ch.obermuhlner.math.big.*
+import ch.obermuhlner.math.big.BigDecimalMath
 import java.math.BigDecimal
 import java.math.MathContext
-import kotlin.math.*
+import kotlin.math.PI
 
 data class MatrixWithHeader(val header: List<String>, val value: Matrix) {
     override fun toString(): String {
