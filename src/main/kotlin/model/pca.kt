@@ -1,28 +1,27 @@
 package model
 
+import ch.obermuhlner.math.big.*
 import java.math.BigDecimal
 import java.math.MathContext
-import ch.obermuhlner.math.big.*
 import kotlin.math.*
-
 
 data class MatrixWithHeader(val header: List<String>, val value: Matrix) {
     override fun toString(): String {
         val headerStr =
             "          " +
-            header.joinToString(postfix = "\t") { String.format("%9s", it) } +
-            "\n"
+                header.joinToString(postfix = "\t") { String.format("%9s", it) } +
+                "\n"
         val matStr = value.comp.foldIndexed("") { idx, acc, list ->
             acc +
-            String.format("%9s", header[idx]) +
-            list.joinToString(prefix = " ", postfix = "\t") { it.toString() } +
-            "\n"
+                String.format("%9s", header[idx]) +
+                list.joinToString(prefix = " ", postfix = "\t") { it.toString() } +
+                "\n"
         }
         return headerStr + matStr
     }
 }
 
-fun makeCorrMatrix(doubleDataList: List<Map<String, Double>>) : MatrixWithHeader {
+fun makeCorrMatrix(doubleDataList: List<Map<String, Double>>): MatrixWithHeader {
     val dataList = doubleDataList.map { sdMap -> sdMap.mapValues { it.value.toBigDecimal() } }
     val means = dataList.reduce { acc, datum ->
         acc.mapValues { it.value + datum.getValue(it.key) }
@@ -66,8 +65,11 @@ fun makeCorrelationMatrixElement(
     val numerator = dataList
         .map { (it.getValue(row) - means.getValue(row)) * (it.getValue(col) - means.getValue(col)) }
         .reduce { acc, d -> acc + d }
-    val denominator = (dataList.count().toBigDecimal() * (vars.getValue(row) * vars.getValue(col)).sqrt(
-        MathContext.DECIMAL64)) // ここ標本分散なので -1してもいい
+    val denominator = (
+        dataList.count().toBigDecimal() * (vars.getValue(row) * vars.getValue(col)).sqrt(
+            MathContext.DECIMAL64
+        )
+        ) // ここ標本分散なので -1してもいい
     val value = numerator / denominator
     return DecimalElement(value)
 }
@@ -77,14 +79,14 @@ const val minimumAbsValue = 0.000_000_1
 
 data class EigenPair(val eigenValue: BigDecimal, val eigenVectors: List<BigDecimal>)
 
-fun jacobi(mat: Matrix) : Pair<Int, List<EigenPair>> {
+fun jacobi(mat: Matrix): Pair<Int, List<EigenPair>> {
     var loopCount = 0
     var resultMatrix = mat
     var eigenVectors = mat.identity()
     while (true) {
         val maxIndexed = resultMatrix.comp
             .mapIndexed { rowIdx, row ->
-                row.mapIndexed{ colIdx, ele -> Triple(rowIdx, colIdx, ele)}
+                row.mapIndexed { colIdx, ele -> Triple(rowIdx, colIdx, ele) }
                     .filter { it.first < it.second }
             }.flatten().maxBy { (it.third.value()).abs() }!!
         if (loopCount > loopMax || minimumAbsValue.toBigDecimal() > (maxIndexed.third.value()).abs()) break
@@ -95,7 +97,7 @@ fun jacobi(mat: Matrix) : Pair<Int, List<EigenPair>> {
         loopCount++
     }
 
-    val eigenValues = resultMatrix.comp.mapIndexed { rowIdx, list -> list.filterIndexed { colIdx, ele -> colIdx == rowIdx }.first().value()}
+    val eigenValues = resultMatrix.comp.mapIndexed { rowIdx, list -> list.filterIndexed { colIdx, ele -> colIdx == rowIdx }.first().value() }
     val eigenPairs = eigenValues.mapIndexed { index, d -> EigenPair(d, eigenVectors.col(index).map { it.value() }) }
 
     return Pair(loopCount, eigenPairs)
@@ -137,8 +139,8 @@ data class PCAResult(val importance: List<ImportanceComponents>, val rotation: L
         var sd = "Standard deviation    "
         var pv = "Proportion of Variance"
         var cp = "Cumulative Proportion "
-        importance.forEachIndexed{ idx,  it ->
-            iHeader +=  "    PC${idx + 1}"
+        importance.forEachIndexed { idx, it ->
+            iHeader += "    PC${idx + 1}"
             sd += String.format(" %.4f", it.standardDeviation)
             pv += String.format(" %.4f", it.proportionOfVariance)
             cp += String.format(" %.4f", it.cumulativeProportion)
@@ -157,19 +159,21 @@ data class PCAResult(val importance: List<ImportanceComponents>, val rotation: L
     }
 }
 
-fun pcaComponent(result: Pair<Int, List<EigenPair>>, header: List<String>) : PCAResult {
+fun pcaComponent(result: Pair<Int, List<EigenPair>>, header: List<String>): PCAResult {
     val eigens = result.second
 
     val sds = eigens.sortedByDescending { it.eigenValue }
 
-    val sum =  sds.map { it.eigenValue }.reduce { acc, bigDecimal -> acc + bigDecimal }
+    val sum = sds.map { it.eigenValue }.reduce { acc, bigDecimal -> acc + bigDecimal }
 
     val ics = sds.fold(emptyList<ImportanceComponents>()) { acc, ele ->
         if (acc.isEmpty()) {
-            listOf(ImportanceComponents(
-                ele.eigenValue.sqrt(MathContext.DECIMAL64),
-                ele.eigenValue / sum,
-                ele.eigenValue / sum)
+            listOf(
+                ImportanceComponents(
+                    ele.eigenValue.sqrt(MathContext.DECIMAL64),
+                    ele.eigenValue / sum,
+                    ele.eigenValue / sum
+                )
             )
         } else {
             acc.plus(
@@ -182,7 +186,7 @@ fun pcaComponent(result: Pair<Int, List<EigenPair>>, header: List<String>) : PCA
         }
     }
     val rotation = sds.foldIndexed(emptyList<Map<String, BigDecimal>>()) { pcIdx, acc, ele ->
-        acc.plus(header.mapIndexed { idx, s ->  s to sds[pcIdx].eigenVectors[idx] }.toMap())
+        acc.plus(header.mapIndexed { idx, s -> s to sds[pcIdx].eigenVectors[idx] }.toMap())
     }
     return PCAResult(ics, rotation)
 }

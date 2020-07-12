@@ -1,8 +1,7 @@
 package model
 
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 /*
     しんどいのでスモークテストのみ
  */
@@ -24,7 +23,7 @@ internal class PcaKtTest {
             mapOf("Python" to 40.0, "Java" to 180.0, "fee" to 800.0)
         )
         val hmat = makeCorrMatrix(testlist)
-        assertEquals(listOf("Python","Java","fee"), hmat.header)
+        assertEquals(listOf("Python", "Java", "fee"), hmat.header)
 
         val expectedMatrix = Matrix(
             listOf(
@@ -103,7 +102,6 @@ internal class PcaKtTest {
         assertTrue((8.677E-01.toBigDecimal() - jacpbied.second[3].eigenVectors[3]).abs() < 0.000_1.toBigDecimal())
     }
 
-
     @Test
     fun pcaComponent() {
         val testlist = listOf(
@@ -121,9 +119,9 @@ internal class PcaKtTest {
         val res = jacobi(hmat.value)
         val pca = pcaComponent(res, hmat.header)
 
-        assertTrue( (1.4995.toBigDecimal() - pca.importance[0].standardDeviation).abs() < 0.000_1.toBigDecimal())
-        assertTrue( (0.8322.toBigDecimal() - pca.importance[1].standardDeviation).abs() < 0.000_1.toBigDecimal())
-        assertTrue( (0.2430.toBigDecimal() - pca.importance[2].standardDeviation).abs() < 0.000_1.toBigDecimal())
+        assertTrue((1.4995.toBigDecimal() - pca.importance[0].standardDeviation).abs() < 0.000_1.toBigDecimal())
+        assertTrue((0.8322.toBigDecimal() - pca.importance[1].standardDeviation).abs() < 0.000_1.toBigDecimal())
+        assertTrue((0.2430.toBigDecimal() - pca.importance[2].standardDeviation).abs() < 0.000_1.toBigDecimal())
         assertTrue((0.7495.toBigDecimal() - pca.importance[0].proportionOfVariance).abs() < 0.000_1.toBigDecimal())
         assertTrue((0.2308.toBigDecimal() - pca.importance[1].proportionOfVariance).abs() < 0.000_1.toBigDecimal())
         assertTrue((0.0197.toBigDecimal() - pca.importance[2].proportionOfVariance).abs() < 0.000_1.toBigDecimal())

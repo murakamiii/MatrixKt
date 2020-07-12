@@ -48,7 +48,6 @@ internal class MatrixKtTest {
             )
         }
 
-
         assertDoesNotThrow {
             val m3 = Matrix.make(
                 listOf(
@@ -73,7 +72,7 @@ internal class MatrixKtTest {
                 listOf(1, 2, 3)
             )
         )
-        assertThrows(Exception::class.java ) { m1 + m2 }
+        assertThrows(Exception::class.java) { m1 + m2 }
 
         val m3 = Matrix.make(
             listOf(
@@ -81,7 +80,7 @@ internal class MatrixKtTest {
                 listOf(3, 4)
             )
         )
-        assertThrows(Exception::class.java ) { m1 + m3 }
+        assertThrows(Exception::class.java) { m1 + m3 }
 
         val res = Matrix.make(
             listOf(
@@ -89,7 +88,7 @@ internal class MatrixKtTest {
                 listOf(8, 10, 12)
             )
         )
-        assertEquals( res,m1 + m1)
+        assertEquals(res, m1 + m1)
     }
 
     @Test
@@ -105,7 +104,7 @@ internal class MatrixKtTest {
                 listOf(1, 2, 3)
             )
         )
-        assertThrows(Exception::class.java ) { m1 - m2 }
+        assertThrows(Exception::class.java) { m1 - m2 }
 
         val m3 = Matrix.make(
             listOf(
@@ -113,7 +112,7 @@ internal class MatrixKtTest {
                 listOf(3, 4)
             )
         )
-        assertThrows(Exception::class.java ) { m1 - m3 }
+        assertThrows(Exception::class.java) { m1 - m3 }
 
         val res = Matrix.make(
             listOf(
@@ -121,8 +120,7 @@ internal class MatrixKtTest {
                 listOf(0, 0, 0)
             )
         )
-        assertEquals( res,m1 - m1)
-
+        assertEquals(res, m1 - m1)
     }
 
     @Test
@@ -140,8 +138,8 @@ internal class MatrixKtTest {
                 listOf(0, 0, 0)
             )
         )
-        assertEquals( res,m1 * 0)
-        assertEquals( res,0 * m1)
+        assertEquals(res, m1 * 0)
+        assertEquals(res, 0 * m1)
 
         val res2 = Matrix.make(
             listOf(
@@ -149,10 +147,10 @@ internal class MatrixKtTest {
                 listOf(-8, -10, -12)
             )
         )
-        assertEquals( res2,m1 * -2)
-        assertEquals( res2,-2 * m1)
+        assertEquals(res2, m1 * -2)
+        assertEquals(res2, -2 * m1)
 
-        assertThrows(Exception::class.java ) { m1 * res2 }
+        assertThrows(Exception::class.java) { m1 * res2 }
 
         val m2 = Matrix.make(
             listOf(
