@@ -1,9 +1,6 @@
-import model.*
-import org.apache.commons.csv.CSVFormat
-import org.apache.commons.csv.CSVParser
-import org.apache.commons.csv.CSVRecord
-import java.io.BufferedReader
-import java.lang.Exception
+import model.jacobi
+import model.makeCorrMatrix
+import model.pcaComponent
 
 fun main() {
 

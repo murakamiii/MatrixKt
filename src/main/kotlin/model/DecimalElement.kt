@@ -1,7 +1,6 @@
 package model
 
 import java.math.BigDecimal
-import java.math.MathContext
 import java.math.RoundingMode
 
 data class DecimalElement(val element: BigDecimal) : MElement {
