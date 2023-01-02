@@ -1,0 +1,13 @@
+name: unit-test
+on: 
+  pull_request:
+    branches: [master]
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Run Tests
+        run: ./gradlew test
